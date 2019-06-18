@@ -2,10 +2,16 @@
 
 using namespace std;
 
+void initializeGrid() {
+	for (int row = 0; row < GRID_ROWS; row++)
+		for (int column = 0; column < GRID_COLUMNS; column++)
+			grid[row][column] = PLACEHOLDER_POSITION;
+}
+
 void displayGrid() {
-	cout << HEADER << endl << endl;
-	for (int row = 0; row < GRID_SIZE; row++) {
-		for (int column = 0; column < GRID_SIZE; column++)
+	cout << HEADER << endl;
+	for (int row = 0; row < GRID_ROWS; row++) {
+		for (int column = 0; column < GRID_COLUMNS; column++)
 			cout << grid[row][column] << ' ';
 		cout << endl;
 	}
@@ -20,7 +26,7 @@ const bool move(const int &column) {
 }
 
 char *availablePosition(const int &column) {
-	for (int row = GRID_SIZE - 1; row >= 0; row--)
+	for (int row = GRID_ROWS - 1; row >= 0; row--)
 		if (available(grid[row][column]))
 			return &grid[row][column];
 	return nullptr;
@@ -42,7 +48,7 @@ const bool input() {
 	cout << "Player " << currentPlayer << ": ";
 	int column;
 	cin >> column;
-	return column >= 1 && column <= GRID_SIZE && move(column - 1);
+	return column >= 1 && column <= GRID_COLUMNS && move(column - 1);
 }
 
 const char &newPlayer() {
@@ -57,17 +63,17 @@ const bool win() {
 	return false;
 }
 
-const bool conformsToLayout(const bool layout[GRID_SIZE][GRID_SIZE]) {
-	for (int row = 0; row < GRID_SIZE; row++)
-		for (int column = 0; column < GRID_SIZE; column++)
+const bool conformsToLayout(const bool layout[GRID_ROWS][GRID_COLUMNS]) {
+	for (int row = 0; row < GRID_ROWS; row++)
+		for (int column = 0; column < GRID_COLUMNS; column++)
 			if (layout[row][column] && grid[row][column] != currentPlayer)
 				return false;
 	return true;
 }
 
 const bool gridIsFull() {
-	for (int row = 0; row < GRID_SIZE; row++)
-		for (int column = 0; column < GRID_SIZE; column++)
+	for (int row = 0; row < GRID_ROWS; row++)
+		for (int column = 0; column < GRID_COLUMNS; column++)
 			if (grid[row][column] == PLACEHOLDER_POSITION)
 				return false;
 	return true;
@@ -77,6 +83,7 @@ int main() {
 	system("clear");
 	getPlayers();
 	system("clear");
+	initializeGrid();
 	displayGrid();
 	while (true) {
 		cout << endl;
