@@ -1,4 +1,4 @@
-#define EMPTY_SLOT '*'
+#define EMPTY_SLOT ' '
 
 enum Player {
 	red = 'x',
